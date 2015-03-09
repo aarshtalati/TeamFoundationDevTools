@@ -42,29 +42,42 @@ namespace TeamFoundationDevTools
 
 		private static void Home()
 		{
-			if (menus == null)
-			{
-				menus = new Dictionary<int, string>();
-				menus[0] = "Connect / Change Connection";
-				menus[1] = "Search";
-				menus[2] = "Preferences";
-				menus[3] = "Exit";
-			}
-
-
 			int selection = -1;
-			tempString = string.Format("Your Selection (0-{0}) : ", menus.Count - 1);
 
-			while (selection != menus.Where(kvp => kvp.Value == "Exit").First().Key)
+			while (selection != 3)
 			{
 				ResetScreen();
 
+				if (menus == null)
+				{
+					menus = new Dictionary<int, string>();
+					menus[0] = tfsProjectCollectionUri == null ? "Not Connected. ( Connect ? )" : "Connected ! ( Change ? )";
+					menus[1] = "Preferences";
+					menus[2] = "Search";
+					menus[3] = "Exit";
+				}
+
+				tempString = string.Format("Your Selection (0-{0}) : ", menus.Count - 1);
+
 				// Print Menu
 				foreach (KeyValuePair<int, string> menu_item in menus)
-					Console.WriteLine("{0}.\t {1}", menu_item.Key, menu_item.Value);
+				{
+					if (menu_item.Key == 0 && menu_item.Value == "Not Connected. ( Connect ? )")
+					{
+						Console.BackgroundColor = ConsoleColor.Yellow;
+						Console.ForegroundColor = ConsoleColor.Red;
+					}
 
+					if (menu_item.Key == 0 && menu_item.Value == "Connected ! ( Change ? )")
+						Console.ForegroundColor = ConsoleColor.Green;
+
+					Console.WriteLine("{0}.\t {1}", menu_item.Key, menu_item.Value);
+					Console.ResetColor();
+				}
 
 				selection = Utils.GetValidIntChoice(-1, 0, menus.Count - 1, ref tempString);
+				
+				menus = null;
 				ResetScreen();
 
 				switch (selection)
@@ -74,10 +87,14 @@ namespace TeamFoundationDevTools
 						break;
 
 					case 1:
+						Preferences.PreferencesHome();
+						break;
+
 					case 2:
-						
+						Search.FullSearch(tfsProjectCollectionUri);
+						break;
+
 					case 3:
-						
 						return;
 					default:
 						break;

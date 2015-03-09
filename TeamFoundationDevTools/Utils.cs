@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,17 @@ namespace TeamFoundationDevTools
 
 			input = null;
 			return selection;
+		}
+
+		internal static void DumpData(ref StringBuilder sbContent, ref string fileName)
+		{
+			using (StreamWriter sw = File.AppendText(fileName))
+			{
+				sw.Write(sbContent.ToString());
+				sw.Flush();
+			}
+
+			sbContent = new StringBuilder();
 		}
 	}
 }
