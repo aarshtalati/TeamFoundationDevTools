@@ -102,18 +102,13 @@ namespace TeamFoundationDevTools
 			}
 		}
 
-
 		private static void Greet()
 		{
 			Console.ForegroundColor = ConsoleColor.Blue;
-			Console.WriteLine("===========================================");
-			Console.WriteLine("Welcome to TFDT : Team Foundation Dev Tools");
-			Console.WriteLine("===========================================");
+			Console.WriteLine("===============================================================");
+			Console.WriteLine("Welcome to TFDT : Team Foundation Dev Tools ( License : GPLv2 )");
+			Console.WriteLine("===============================================================");
 			Console.ResetColor();
 		}
-
-
-
-		
 	}
 }

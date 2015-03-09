@@ -15,7 +15,11 @@ namespace TeamFoundationDevTools
 	static class Preferences
 	{
 		public static string outputFilePath = Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-		public static string fileName = string.Format("TFSSearch_{0}.txt", DateTime.Now.ToString("__yyyy_MM_dd_HH_mm_ss_fff"));
+		
+		internal static string GetFileName()
+		{
+			return string.Format("TFSSearch_{0}.txt", DateTime.Now.ToString("__yyyy_MM_dd_HH_mm_ss_fff"));
+		}
 
 		public static bool detailedScreenOutput = false;
 		public static bool detailedFileOutput = true;
@@ -56,7 +60,7 @@ namespace TeamFoundationDevTools
 
 		static void ViewPreferences(bool displayOnly = false)
 		{
-			Console.WriteLine(("Results To :").PadRight(50, ' ') + " " + outputFilePath + "\\" + fileName + " (file name may vary)");
+			Console.WriteLine(("Results To :").PadRight(50, ' ') + " " + outputFilePath + "\\" + GetFileName() + " (file name may vary)");
 			Console.WriteLine(("Detailed Output on Screen :").PadRight(50, ' ') + " {0}", detailedScreenOutput ? "Yes" : "No");
 			Console.WriteLine(("Detailed Output in txt :").PadRight(50, ' ') + " {0}", detailedFileOutput ? "Yes" : "No");
 

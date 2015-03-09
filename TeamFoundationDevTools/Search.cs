@@ -14,7 +14,12 @@ namespace TeamFoundationDevTools
 
 		static int results = 0;
 		static CultureInfo locale = CultureInfo.CurrentCulture;
-		static string fileName = Preferences.outputFilePath + "\\" + Preferences.fileName;
+
+		static string fileName = null;
+		internal static string GetFileName()
+		{
+			return Preferences.outputFilePath + "\\" + Preferences.GetFileName();
+		}
 
 		static string
 			fileNameWildCard = null,
@@ -64,6 +69,8 @@ namespace TeamFoundationDevTools
 			sbContent.AppendLine("===================");
 
 			sbContent.AppendLine(Environment.NewLine + Environment.NewLine);
+
+			string fileName = GetFileName();
 
 			string project_progress;
 			foreach (var project in projects)
