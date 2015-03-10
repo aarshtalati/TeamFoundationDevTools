@@ -50,7 +50,8 @@ namespace TeamFoundationDevTools
 			var versionControl = tpc.GetService<VersionControlServer>();
 			var projects = versionControl.GetAllTeamProjects(true);
 
-			StringBuilder sbContent = new StringBuilder("===================");
+			StringBuilder sbContent = new StringBuilder();
+			sbContent.AppendLine("===================");
 			sbContent.AppendLine("*** Search Criteria : ***");
 			sbContent.AppendLine("===================");
 
