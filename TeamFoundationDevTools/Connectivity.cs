@@ -11,15 +11,16 @@ namespace TeamFoundationDevTools
 	static class Connectivity
 	{
 		static string message = null;
+		internal static Uri tfsProjectCollectionUri = null;
 
-		internal static Uri GetRegisteredTfsConnectionUri()
+		internal static void GetRegisteredTfsConnectionUri()
 		{
+			tfsProjectCollectionUri = null;
 			List<RegisteredProjectCollection> projectCollections = new List<RegisteredProjectCollection>(RegisteredTfsConnections.GetProjectCollections());
 
 			if (projectCollections.Count == 0)
-				return null;
+				return;
 
-			Uri uri = null;
 			int selectedIndex = -1;
 			RegisteredProjectCollection p = null;
 			string line = string.Format("{0}\t {1}\t {2}", ("Index").PadRight(3), ("Name").PadRight(50), ("Online").PadRight(1));
@@ -44,7 +45,7 @@ namespace TeamFoundationDevTools
 				selectedIndex = Utils.GetValidIntChoice(selectedIndex, 0, projectCollections.Count - 1, ref message);
 
 			p = projectCollections[selectedIndex];
-			uri = p.Uri;
+			tfsProjectCollectionUri = p.Uri;
 
 
 			Console.WriteLine("\n{0}Selected Project Collection : {1} ( {2} )", projectCollections.Count == 1 ? "Auto-" : "", p.Name, p.Uri.ToString());
@@ -52,7 +53,6 @@ namespace TeamFoundationDevTools
 			Console.ReadKey();
 
 			message = null;
-			return uri;
 		}
 	}
 }

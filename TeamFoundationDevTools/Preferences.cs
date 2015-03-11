@@ -60,6 +60,7 @@ namespace TeamFoundationDevTools
 
 		static void ViewPreferences(bool displayOnly = false)
 		{
+			Console.WriteLine(("Search Preferences for :").PadRight(50, ' ') + " " + Connectivity.tfsProjectCollectionUri.ToString());
 			Console.WriteLine(("Results To :").PadRight(50, ' ') + " " + outputFilePath + "\\" + GetFileName() + " (file name may vary)");
 			Console.WriteLine(("Detailed Output on Screen :").PadRight(50, ' ') + " {0}", detailedScreenOutput ? "Yes" : "No");
 			Console.WriteLine(("Detailed Output in txt :").PadRight(50, ' ') + " {0}", detailedFileOutput ? "Yes" : "No");

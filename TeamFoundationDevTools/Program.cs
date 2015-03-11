@@ -21,10 +21,7 @@ namespace TeamFoundationDevTools
 {
 	class Program
 	{
-		static Uri tfsProjectCollectionUri = null;
-
 		static string tempString = null;
-
 		static Dictionary<int, string> menus = null;
 
 		static void Main(string[] args)
@@ -51,7 +48,7 @@ namespace TeamFoundationDevTools
 				if (menus == null)
 				{
 					menus = new Dictionary<int, string>();
-					menus[0] = tfsProjectCollectionUri == null ? "Not Connected. ( Connect ? )" : "Connected ! ( Change ? )";
+					menus[0] = Connectivity.tfsProjectCollectionUri == null ? "Not Connected. ( Connect ? )" : "Connected ! ( Change ? )";
 					menus[1] = "Preferences";
 					menus[2] = "Search";
 					menus[3] = "Exit";
@@ -76,14 +73,14 @@ namespace TeamFoundationDevTools
 				}
 
 				selection = Utils.GetValidIntChoice(-1, 0, menus.Count - 1, ref tempString);
-				
+
 				menus = null;
 				ResetScreen();
 
 				switch (selection)
 				{
 					case 0:
-						tfsProjectCollectionUri = Connectivity.GetRegisteredTfsConnectionUri();
+						Connectivity.GetRegisteredTfsConnectionUri();
 						break;
 
 					case 1:
@@ -91,7 +88,13 @@ namespace TeamFoundationDevTools
 						break;
 
 					case 2:
-						Search.FullSearch(tfsProjectCollectionUri);
+						if (Connectivity.tfsProjectCollectionUri != null)
+							Search.FullSearch(Connectivity.tfsProjectCollectionUri);
+						else
+						{
+							Console.WriteLine("#ERR : You've got to connect first from the main menu. Press Any Key ...");
+							Console.ReadKey();
+						}
 						break;
 
 					case 3:
