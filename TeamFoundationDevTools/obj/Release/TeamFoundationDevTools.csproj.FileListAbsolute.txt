@@ -1,0 +1,13 @@
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\TeamFoundationDevTools.exe.config
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\TeamFoundationDevTools.exe
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\TeamFoundationDevTools.pdb
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Release\TeamFoundationDevTools.csprojResolveAssemblyReference.cache
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Release\TeamFoundationDevTools.exe
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Release\TeamFoundationDevTools.pdb
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\TeamFoundationDevTools.exe.manifest
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\TeamFoundationDevTools.application
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Release\TeamFoundationDevTools.exe.manifest
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Release\TeamFoundationDevTools.application
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Release\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll
