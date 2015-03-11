@@ -77,6 +77,13 @@ namespace TeamFoundationDevTools
 				menus = null;
 				ResetScreen();
 
+				if (Connectivity.tfsProjectCollectionUri == null && selection != 0)
+				{
+					Console.Write("#ERR : \nYou've got to connect first from the main menu. Press Any Key ...");
+					Console.ReadKey();
+					continue;
+				}
+
 				switch (selection)
 				{
 					case 0:
@@ -88,17 +95,12 @@ namespace TeamFoundationDevTools
 						break;
 
 					case 2:
-						if (Connectivity.tfsProjectCollectionUri != null)
-							Search.FullSearch(Connectivity.tfsProjectCollectionUri);
-						else
-						{
-							Console.WriteLine("#ERR : You've got to connect first from the main menu. Press Any Key ...");
-							Console.ReadKey();
-						}
+						Search.FullSearch(Connectivity.tfsProjectCollectionUri);
 						break;
 
 					case 3:
 						return;
+
 					default:
 						break;
 				}

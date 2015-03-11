@@ -15,16 +15,17 @@ namespace TeamFoundationDevTools
 	static class Preferences
 	{
 		public static string outputFilePath = Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-		
-		internal static string GetFileName()
-		{
-			return string.Format("TFSSearch_{0}.txt", DateTime.Now.ToString("__yyyy_MM_dd_HH_mm_ss_fff"));
-		}
-
 		public static bool detailedScreenOutput = false;
 		public static bool detailedFileOutput = true;
+		public static string searchInProject = "All";
 
-		
+		internal static string tempString = null;
+
+		internal static string GetFileName()
+		{
+			return string.Format("TFDT_Search_{0}.txt", DateTime.Now.ToString("__yyyy_MM_dd_HH_mm_ss_fff"));
+		}
+
 
 		internal static void PreferencesHome(PreferenceMenu? choice = null)
 		{
@@ -74,8 +75,57 @@ namespace TeamFoundationDevTools
 
 		static void ChangePreferences()
 		{
-			Console.WriteLine("YET TO BE IMPLEMENTED ... ");
+			Console.WriteLine("Just so you know, your changes to preferences would be reset upon exit. Change Preference : ");
+
+			Console.WriteLine(("0\t Save Search Results To :").PadRight(50, ' ') + Preferences.outputFilePath);
+			Console.WriteLine(("1\t Search in a Project :").PadRight(50, ' ') + Preferences.searchInProject);
+			Console.WriteLine(("2\t Detailed Screen Output :").PadRight(50, ' ') + (Preferences.detailedScreenOutput ? "Y" : "N") );
+			Console.WriteLine(("3\t Detailed File Output :").PadRight(50, ' ') + (Preferences.detailedFileOutput ? "Y" : "N"));
+
+			string message = "Preference to Update : ";
+			int selection = Utils.GetValidIntChoice(-1, 0, 3, ref message);
+
+			switch (selection)
+			{
+				case 0:
+					Console.Write("Updating, Save Search Results To : ");
+					GetValidStringInput(ref Preferences.outputFilePath);
+
+					break;
+
+				case 1:
+					Console.Write("Updating, Search in a Project :");
+					
+					break;
+
+				case 2:
+					Console.Write("Updating, Detailed Screen Output :");
+					
+					break;
+
+				case 3:
+					Console.Write("Updating, Detailed File Output :");
+
+					break;
+
+				default:
+					break;
+			}
 			Console.ReadKey();
+		}
+
+		private static void GetValidStringInput(ref string field)
+		{
+			tempString = Console.ReadLine();
+			if (tempString != null && tempString.Length != 0)
+			{
+				field = tempString;
+				Console.WriteLine("... Updated");
+			}
+			else
+			{
+				Console.WriteLine("#ERR : Invalid, value did not change");
+			}
 		}
 	}
 }

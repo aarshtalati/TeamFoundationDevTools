@@ -5,3 +5,4 @@ C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\D
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\Microsoft.WITDataStore.dll
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.exe
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.pdb
+C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.csprojResolveAssemblyReference.cache
