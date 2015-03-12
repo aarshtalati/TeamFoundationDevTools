@@ -5,3 +5,16 @@ C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\D
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\Microsoft.WITDataStore.dll
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.exe
 C:\Users\UGAT174\Desktop\TFS\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.pdb
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\TeamFoundationDevTools.exe.config
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\TeamFoundationDevTools.exe.manifest
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\TeamFoundationDevTools.application
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\TeamFoundationDevTools.exe
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\TeamFoundationDevTools.pdb
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\bin\Debug\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\ResolveAssemblyReference.cache
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.exe.manifest
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.application
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.exe
+C:\TFDT\TeamFoundationDevTools\TeamFoundationDevTools\obj\Debug\TeamFoundationDevTools.pdb
