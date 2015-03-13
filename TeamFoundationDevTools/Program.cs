@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-using System.Diagnostics;
-using System.IO;
-
-
-// tfsProjectCollectionUri = GetRegisteredTfsConnectionUrl();
-
-// if (tfsProjectCollectionUri == null || tfsProjectCollectionUri.ToString().Length == 0)
-// {
-// 	Console.WriteLine("");
-// }
-
 
 namespace TeamFoundationDevTools
 {

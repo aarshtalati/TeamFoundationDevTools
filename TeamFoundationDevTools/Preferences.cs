@@ -48,11 +48,10 @@ namespace TeamFoundationDevTools
 					string message = "Your Selection : ";
 					int selection = Utils.GetValidIntChoice(-1, 0, 1, ref message);
 
-					if(selection == (int)PreferenceMenu.View)
-							ViewPreferences();
+					if (selection == (int)PreferenceMenu.View)
+						ViewPreferences();
 					else
-							ChangePreferences();
-
+						ChangePreferences();
 					break;
 			}
 
@@ -79,7 +78,7 @@ namespace TeamFoundationDevTools
 
 			Console.WriteLine(("0\t Save Search Results To :").PadRight(50, ' ') + Preferences.outputFilePath);
 			Console.WriteLine(("1\t Search in a Project :").PadRight(50, ' ') + Preferences.searchInProject);
-			Console.WriteLine(("2\t Detailed Screen Output :").PadRight(50, ' ') + (Preferences.detailedScreenOutput ? "Y" : "N") );
+			Console.WriteLine(("2\t Detailed Screen Output :").PadRight(50, ' ') + (Preferences.detailedScreenOutput ? "Y" : "N"));
 			Console.WriteLine(("3\t Detailed File Output :").PadRight(50, ' ') + (Preferences.detailedFileOutput ? "Y" : "N"));
 
 			string message = "Preference to Update : ";
@@ -95,12 +94,12 @@ namespace TeamFoundationDevTools
 
 				case 1:
 					Console.Write("Updating, Search in a Project :");
-					
+
 					break;
 
 				case 2:
 					Console.Write("Updating, Detailed Screen Output :");
-					
+
 					break;
 
 				case 3:
