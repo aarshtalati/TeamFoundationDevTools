@@ -119,25 +119,27 @@ namespace TeamFoundationDevTools
 							changesetId = null,
 							commiter = null,
 							committedOn = null,
-							checkinNote = null;
+							comment = null;
 
 						if (h == null)
-							changesetId = commiter = committedOn = checkinNote = "( ? )";
+							changesetId = commiter = committedOn = comment = "( ? )";
 
 						else
+						
 						{
 							changesetId = h.ChangesetId.ToString();
 							commiter = (h.CommitterDisplayName ?? "").ToUpper();
 							committedOn = (h.CreationDate.ToString("MM/dd/yy HH:mm:ss tt") ?? "").ToUpper();
-
-							if (h.CheckinNote.Values.Count() > 0)
-							{
-								checkinNote = (h.CheckinNote.Values[0].Value ?? "").ToUpper();
-							}
+							comment = h.Comment ?? "";
 						}
 
 
-						sbContent.AppendFormat("\t\t\t {0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}" + Environment.NewLine, changesetId, commiter, committedOn, checkinNote, item.ServerItem);
+						sbContent.AppendFormat("\t{0} {1} {2} {3} {4}" + Environment.NewLine,
+							changesetId.PadRight(10),
+							commiter.PadRight(60),
+							committedOn.PadRight(25),
+							comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105), 
+							item.ServerItem); ;
 					}
 					sbContent.AppendLine();
 
