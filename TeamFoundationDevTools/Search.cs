@@ -116,7 +116,7 @@ namespace TeamFoundationDevTools
                     {
                         var history = versionControl.QueryHistory(item.ServerItem, VersionSpec.Latest, 0, RecursionType.OneLevel, null, null, null, 1, true, true);
                         Changeset h = null;
-                        
+
                         var enumer = history.GetEnumerator();
                         int count = 0;
 
@@ -143,11 +143,11 @@ namespace TeamFoundationDevTools
                             comment = h.Comment ?? "";
                         }
 
-                        sbContent.AppendFormat("\t{0} {1} {2} {3} {4}" +Environment.NewLine, 
-                            changesetId.PadRight(10), 
-                            commiter.PadRight(60), 
+                        sbContent.AppendFormat("\t{0} {1} {2} {3} {4}" + Environment.NewLine,
+                            changesetId.PadRight(10),
+                            commiter.PadRight(60),
                             committedOn.PadRight(25),
-                            comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105), 
+                            comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105),
                             item.ServerItem);
                     }
                     sbContent.AppendLine();

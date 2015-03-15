@@ -12,6 +12,8 @@ find . -name "*.userprefs" -type f | xargs rm -f
 find . -name "*.VisualState.xml" -type f | xargs rm -f
 find . -name "*.JustCode" -type f | xargs rm -f
 find . -name "*.nupkg" -type f | xargs rm -f
+find . -name "*.jmconfig" -type f | xargs rm -f
+find . -name "*.jtconfig" -type f | xargs rm -f
 find . -name "buildlog.*" -type f | xargs rm -f
 
 find . -name "UpgradeLog*.XML" -type f | xargs rm -f
