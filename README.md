@@ -1,5 +1,8 @@
 # TeamFoundationDevTools Command Line Utility
 
+Home Page : http://ablaze8.github.io/TeamFoundationDevTools/ <br/>
+My Blog   : https://wildclick.wordpress.com/ 
+
 This is a Free ( as in beer ! ) & Open Source utility software distributed under GNU GPL v2. This software is running on .NET platform 4.5.2
 
 ### Additional License Info :
