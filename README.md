@@ -1,4 +1,4 @@
-# TeamFoundationDevTools Command Line Utility
+# Team Foundation Dev Tools Utility
 
 Home Page : http://ablaze8.github.io/TeamFoundationDevTools/ <br/>
 My Blog   : https://wildclick.wordpress.com/ 
