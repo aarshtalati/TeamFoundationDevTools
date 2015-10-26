@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using System.IO;
 
 namespace TeamFoundationDevTools
 {
@@ -71,12 +72,20 @@ namespace TeamFoundationDevTools
 
 			sbContent.AppendLine(Environment.NewLine + Environment.NewLine);
 
-			string fileName = GetFileName();
+			Item slnFile;
+			string
+				fileName = GetFileName(),
+				project_progress,
+				slnFileContent,
+				projectNameWithTfsVersion;
 
-			string project_progress;
 			foreach (var project in projects)
 			{
 				project_progress = null;
+				slnFile = null;
+				slnFileContent = null;
+				projectNameWithTfsVersion = null;
+
 				var items = versionControl.GetItems(project.ServerItem + "/" + fileNameWildCard, RecursionType.Full).Items;
 
 				if (items.Length > 0)
@@ -99,8 +108,40 @@ namespace TeamFoundationDevTools
 						continue;
 					}
 
+					slnFile = versionControl.GetItems(project.ServerItem + "/*" + project.Name + "*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
+
+					if (slnFile == null)
+					{
+						slnFile = versionControl.GetItems(project.ServerItem + "/*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
+					}
+
+					if (slnFile != null)
+					{
+						// Get file string
+						using (Stream stram = slnFile.DownloadFile())
+						{
+							using (MemoryStream memoryStream = new MemoryStream())
+							{
+								stram.CopyTo(memoryStream);
+								using (StreamReader streamReader = new StreamReader(new MemoryStream(memoryStream.ToArray())))
+								{
+									string line = "";
+									while ((line = streamReader.ReadLine()) != null)
+									{
+										if (line.StartsWith("# Visual Studio ", StringComparison.OrdinalIgnoreCase))
+										{
+											projectNameWithTfsVersion = string.Format("{0} ({1})", project.Name, line);
+											break;
+										}
+										continue;
+									}
+								}
+							}
+						}
+					}
+
 					Console.ForegroundColor = ConsoleColor.Green;
-					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), project.Name);
+					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), projectNameWithTfsVersion ?? project.Name);
 					sbContent.AppendLine();
 					sbContent.AppendLine(project_progress);
 					Console.WriteLine(project_progress);
@@ -125,7 +166,6 @@ namespace TeamFoundationDevTools
 							changesetId = commiter = committedOn = comment = "( ? )";
 
 						else
-						
 						{
 							changesetId = h.ChangesetId.ToString();
 							commiter = (h.CommitterDisplayName ?? "").ToUpper();
@@ -138,7 +178,7 @@ namespace TeamFoundationDevTools
 							changesetId.PadRight(10),
 							commiter.PadRight(60),
 							committedOn.PadRight(25),
-							comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105), 
+							comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105),
 							item.ServerItem); ;
 					}
 					sbContent.AppendLine();
