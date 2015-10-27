@@ -149,7 +149,7 @@ namespace TeamFoundationDevTools
                     project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), projectNameWithTfsVersion ?? project.Name);
                     sbContent.AppendLine();
                     sbContent.AppendLine(project_progress);
-                    Console.Write("\n" + project_progress);
+                    Console.Write(project_progress);
                     Console.ResetColor();
 
                     results += items.Length;
@@ -205,7 +205,7 @@ namespace TeamFoundationDevTools
                     if (items.Count() > 0)
                     {
                         Console.Write("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
-                        Console.WriteLine("                                                   ");
+                        Console.Write("                                                   \n");
                     }
 
                     sbContent.AppendLine();
