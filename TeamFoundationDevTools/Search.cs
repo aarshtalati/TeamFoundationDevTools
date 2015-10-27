@@ -108,26 +108,32 @@ namespace TeamFoundationDevTools
 						continue;
 					}
 
+					// The program tries to first look for *.sln file containing project name and takes the first result
 					slnFile = versionControl.GetItems(project.ServerItem + "/*" + project.Name + "*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
 
 					if (slnFile == null)
 					{
+						// If not match found above, the program tries to look for all *.sln file and takes the first result
 						slnFile = versionControl.GetItems(project.ServerItem + "/*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
 					}
 
 					if (slnFile != null)
 					{
-						// Get file string
-						using (Stream stram = slnFile.DownloadFile())
+						// Get file string and look for a string which tells the inntended Visual Studio version to use
+
+						// Caveat : this process assumes that *.sln file has each line on a new line
+
+						using (Stream stream = slnFile.DownloadFile())
 						{
 							using (MemoryStream memoryStream = new MemoryStream())
 							{
-								stram.CopyTo(memoryStream);
+								stream.CopyTo(memoryStream);
 								using (StreamReader streamReader = new StreamReader(new MemoryStream(memoryStream.ToArray())))
 								{
 									string line = "";
 									while ((line = streamReader.ReadLine()) != null)
 									{
+										line = line.Trim();
 										if (line.StartsWith("# Visual Studio ", StringComparison.OrdinalIgnoreCase))
 										{
 											projectNameWithTfsVersion = string.Format("{0} ({1})", project.Name, line);
@@ -144,12 +150,19 @@ namespace TeamFoundationDevTools
 					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), projectNameWithTfsVersion ?? project.Name);
 					sbContent.AppendLine();
 					sbContent.AppendLine(project_progress);
-					Console.WriteLine(project_progress);
+					Console.Write(project_progress);
 					Console.ResetColor();
 
 					results += items.Length;
 
 					sbContent.AppendLine();
+
+					if (items.Count() > 0)
+					{
+						Console.ForegroundColor = ConsoleColor.Yellow;
+						Console.Write(" ==> Please wait : spitting out details in txt file");
+						Console.ResetColor();
+					}
 
 					foreach (var item in items)
 					{
@@ -180,6 +193,12 @@ namespace TeamFoundationDevTools
 							committedOn.PadRight(25),
 							comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105),
 							item.ServerItem); ;
+					}
+
+					if (items.Count() > 0)
+					{
+						Console.Write("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+						Console.Write("                                                   \n");
 					}
 					sbContent.AppendLine();
 
