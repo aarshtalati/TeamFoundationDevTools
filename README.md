@@ -1,6 +1,6 @@
 # TeamFoundationDevTools Command Line Utility
 
-This is a Free ( as in beer ! ) & Open Source utility software distributed under GNU GPL v2. This software is running on .NET platform 4.5.2
+This is a Free ( as in beer ! ) & Open Source utility software distributed under GNU GPL v2. This software is running on .NET platform 3.5 ( if you're on newer versions of .NET please try swtiching to [master branch](https://github.com/ablaze8/TeamFoundationDevTools/tree/master))
 
 ### Additional License Info :
 
