@@ -7,7 +7,7 @@ using System.IO;
 namespace TeamFoundationDevTools
 {
     /// <summary>
-    /// These extension methods are an attempt to keep the actual code base for both branches ( .NET 3.5 and 4.5.2 as close as possible )
+    /// These extension methods are an attempt to keep the actual code base for both branches ( .NET 3.5 and 4.5.2 ) as close as possible
     /// </summary>
     public static class DotNetExtensions
     {
