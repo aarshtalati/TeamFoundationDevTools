@@ -6,23 +6,11 @@ using System.IO;
 
 namespace TeamFoundationDevTools
 {
+    /// <summary>
+    /// These extension methods are an attempt to keep the actual code base for both branches ( .NET 3.5 and 4.5.2 as close as possible )
+    /// </summary>
     public static class DotNetExtensions
     {
-        public static void CopyTo(this Stream destination)
-        {
-            CopyTo(destination,81920);
-        }
-
-        public static void CopyTo(this Stream destination, int bufferSize)
-        {
-            byte[] array = new byte[bufferSize];
-            int count;
-            while ((count = destination.Read(array, 0, array.Length)) != 0)
-            {
-               destination.Write(array, 0, count);
-            }
-        }
-
         public static void CopyTo(this Stream input, Stream output)
         {
             byte[] buffer = new byte[16 * 1024]; // Fairly arbitrary size
