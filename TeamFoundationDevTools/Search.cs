@@ -16,7 +16,6 @@ namespace TeamFoundationDevTools
 		static int results = 0;
 		static CultureInfo locale = CultureInfo.CurrentCulture;
 
-		static string fileName = null;
 		internal static string GetFileName()
 		{
 			return Preferences.outputFilePath + "\\" + Preferences.GetFileName();
@@ -232,11 +231,11 @@ namespace TeamFoundationDevTools
 				}
 			}
 
-
-			sbContent.AppendLine(string.Format("{0} Found", results));
+			string doneMessage = string.Format("{0} matches found", results);
+			sbContent.AppendLine(doneMessage);
 			Utils.DumpData(ref sbContent, ref fileName);
 
-			Console.WriteLine("\n\n\nDone. {0} Found.", results);
+			Console.WriteLine("\n\n\nDone. {0}", doneMessage);
 			Console.WriteLine("Output File : " + fileName);
 			Console.ReadKey();
 		}
