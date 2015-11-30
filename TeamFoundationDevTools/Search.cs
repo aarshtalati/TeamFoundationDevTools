@@ -72,19 +72,22 @@ namespace TeamFoundationDevTools
 
 			sbContent.AppendLine(Environment.NewLine + Environment.NewLine);
 
-			Item slnFile;
+			IEnumerable<Item> slnFiles;
+
 			string
+				title,
 				fileName = GetFileName(),
-				project_progress,
-				slnFileContent,
+				project_progress;
+
+			List<string>
 				projectNameWithTfsVersion;
 
 			foreach (var project in projects)
 			{
+				title = project.Name;
 				project_progress = null;
-				slnFile = null;
-				slnFileContent = null;
-				projectNameWithTfsVersion = null;
+				slnFiles = null;
+				projectNameWithTfsVersion = new List<string>();
 
 				var items = versionControl.GetItems(project.ServerItem + "/" + fileNameWildCard, RecursionType.Full).Items;
 
@@ -109,18 +112,22 @@ namespace TeamFoundationDevTools
 					}
 
 					// The program tries to first look for *.sln file containing project name and takes the first result
-					slnFile = versionControl.GetItems(project.ServerItem + "/*" + project.Name + "*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
+					slnFiles = versionControl.GetItems(project.ServerItem + "/*" + project.Name + "*.sln", VersionSpec.Latest, RecursionType.Full).Items;
 
-					if (slnFile == null)
+					if (slnFiles.Count() == 0)
 					{
 						// If not match found above, the program tries to look for all *.sln file and takes the first result
-						slnFile = versionControl.GetItems(project.ServerItem + "/*.sln", VersionSpec.Latest, RecursionType.Full).Items.FirstOrDefault();
+						slnFiles = versionControl.GetItems(project.ServerItem + "/*.sln", VersionSpec.Latest, RecursionType.Full).Items;
 					}
 
-					if (slnFile != null)
+					foreach (Item slnFile in slnFiles)
 					{
-						// Get file string and look for a string which tells the inntended Visual Studio version to use
+						if (slnFile == null)
+						{
+							continue;
+						}
 
+						// Get file string and look for a string which tells the inntended Visual Studio version to use
 						// Caveat : this process assumes that *.sln file has each line on a new line
 
 						using (Stream stream = slnFile.DownloadFile())
@@ -136,7 +143,10 @@ namespace TeamFoundationDevTools
 										line = line.Trim();
 										if (line.StartsWith("# Visual Studio ", StringComparison.OrdinalIgnoreCase))
 										{
-											projectNameWithTfsVersion = string.Format("{0} ({1})", project.Name, line);
+											if (!projectNameWithTfsVersion.Contains(line, StringComparer.OrdinalIgnoreCase))
+											{
+												projectNameWithTfsVersion.Add(string.Format("{0}", line));
+											}
 											break;
 										}
 										continue;
@@ -146,11 +156,16 @@ namespace TeamFoundationDevTools
 						}
 					}
 
+					if (projectNameWithTfsVersion.Count > 0)
+					{
+						title = string.Format("{0} ({1})", title, string.Join(", ", projectNameWithTfsVersion));
+					}
+
 					Console.ForegroundColor = ConsoleColor.Green;
-					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), projectNameWithTfsVersion ?? project.Name);
+					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), title);
 					sbContent.AppendLine();
 					sbContent.AppendLine(project_progress);
-					Console.Write(project_progress);
+					Console.WriteLine(project_progress);
 					Console.ResetColor();
 
 					results += items.Length;
@@ -160,7 +175,7 @@ namespace TeamFoundationDevTools
 					if (items.Count() > 0)
 					{
 						Console.ForegroundColor = ConsoleColor.Yellow;
-						Console.Write(" ==> Please wait : spitting out details in txt file");
+						Console.Write("                            ==> Please wait : spitting out details in txt file");
 						Console.ResetColor();
 					}
 
@@ -197,8 +212,9 @@ namespace TeamFoundationDevTools
 
 					if (items.Count() > 0)
 					{
-						Console.Write("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
-						Console.Write("                                                   \n");
+						Console.Write("\r");
+						Console.Write("                                                                              ");
+						Console.Write("\r");
 					}
 					sbContent.AppendLine();
 
