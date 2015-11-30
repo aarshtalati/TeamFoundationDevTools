@@ -22,6 +22,7 @@ namespace TeamFoundationDevTools
 		}
 
 		static string
+			fileContains = null,
 			fileNameWildCard = null,
 			filePathContains = null;
 
@@ -30,6 +31,9 @@ namespace TeamFoundationDevTools
 			Console.WriteLine("Search Parameters :");
 
 			Preferences.PreferencesHome(PreferenceMenu.View);
+
+			Console.Write(("File Contains ( Ignore-Case ) :").PadRight(51));
+			fileContains = Console.ReadLine();
 
 			Console.Write(("File Name ( Wild Card ) :").PadRight(51));
 			fileNameWildCard = Console.ReadLine();
@@ -89,6 +93,7 @@ namespace TeamFoundationDevTools
 				visualStudioVersionsFromSlnFiles = new List<string>();
 
 				var items = versionControl.GetItems(project.ServerItem + "/" + fileNameWildCard, RecursionType.Full).Items;
+				List<Item> filteredItems = new List<Item>();
 
 				if (items.Length > 0)
 				{
@@ -182,8 +187,40 @@ namespace TeamFoundationDevTools
 					if (items.Count() > 0)
 					{
 						Console.ForegroundColor = ConsoleColor.Yellow;
-						Console.Write("                            ==> Please wait : spitting out details in txt file");
+						Console.Write("                            ==> Please wait : narrowing down search and getting more details");
 						Console.ResetColor();
+					}
+
+					foreach (var item in items)
+					{
+						if (fileContains != null && fileContains.Length > 0 && item.ItemType == ItemType.File)
+						{
+							// Search iff : 'File Contains' is specified and the current item is a file ( not a folder )
+							using (var stream = item.DownloadFile())
+							{
+								using (var memoryStream = new MemoryStream())
+								{
+									stream.CopyTo(memoryStream);
+									using (var streamReader = new StreamReader(new MemoryStream(memoryStream.ToArray())))
+									{
+										string line = "";
+										while ((line = streamReader.ReadLine()) != null)
+										{
+											if (line.IndexOf(fileContains, 0, StringComparison.OrdinalIgnoreCase) > -1)
+											{
+												filteredItems.Add(item);
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if (fileContains != null && fileContains.Length > 0 && filteredItems.Count > 0)
+					{
+						items = filteredItems.ToArray();
 					}
 
 					foreach (var item in items)
@@ -198,7 +235,9 @@ namespace TeamFoundationDevTools
 							comment = null;
 
 						if (h == null)
+						{
 							changesetId = commiter = committedOn = comment = "( ? )";
+						}
 
 						else
 						{
@@ -214,13 +253,14 @@ namespace TeamFoundationDevTools
 							commiter.PadRight(60),
 							committedOn.PadRight(25),
 							comment.Length > 100 ? comment.Substring(0, 100).PadRight(105) : comment.PadRight(105),
-							item.ServerItem); ;
+							item.ServerItem);
+
 					}
 
 					if (items.Count() > 0)
 					{
 						Console.Write("\r");
-						Console.Write("                                                                              ");
+						Console.Write("                                                                                            ");
 						Console.Write("\r");
 					}
 					sbContent.AppendLine();
