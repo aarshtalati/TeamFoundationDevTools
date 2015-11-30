@@ -79,14 +79,14 @@ namespace TeamFoundationDevTools
 				project_progress;
 
 			List<string>
-				projectNameWithTfsVersion;
+				visualStudioVersionsFromSlnFiles;
 
 			foreach (var project in projects)
 			{
 				title = project.Name;
 				project_progress = null;
 				slnFiles = null;
-				projectNameWithTfsVersion = new List<string>();
+				visualStudioVersionsFromSlnFiles = new List<string>();
 
 				var items = versionControl.GetItems(project.ServerItem + "/" + fileNameWildCard, RecursionType.Full).Items;
 
@@ -142,9 +142,9 @@ namespace TeamFoundationDevTools
 										line = line.Trim();
 										if (line.StartsWith("# Visual Studio ", StringComparison.OrdinalIgnoreCase))
 										{
-											if (!projectNameWithTfsVersion.Contains(line, StringComparer.OrdinalIgnoreCase))
+											if (!visualStudioVersionsFromSlnFiles.Contains(line, StringComparer.OrdinalIgnoreCase))
 											{
-												projectNameWithTfsVersion.Add(string.Format("{0}", line));
+												visualStudioVersionsFromSlnFiles.Add(string.Format("{0}", line));
 											}
 											break;
 										}
@@ -155,20 +155,28 @@ namespace TeamFoundationDevTools
 						}
 					}
 
-					if (projectNameWithTfsVersion.Count > 0)
-					{
-						title = string.Format("{0} ({1})", title, string.Join(", ", projectNameWithTfsVersion));
-					}
-
 					Console.ForegroundColor = ConsoleColor.Green;
 					project_progress = string.Format("{0}\t {1} \t {2}", items.Length, ("MATCH FOUND in :").PadLeft(25, '.'), title);
+					Console.Write(project_progress);
+
 					sbContent.AppendLine();
-					sbContent.AppendLine(project_progress);
-					Console.WriteLine(project_progress);
+					sbContent.AppendLine();
+					sbContent.AppendLine();
+					sbContent.Append(project_progress);
+
+					if (visualStudioVersionsFromSlnFiles.Count > 0)
+					{
+						Console.ForegroundColor = ConsoleColor.DarkGreen;
+						string visualStudioVersionsString = string.Format(" ({0})", string.Join(", ", visualStudioVersionsFromSlnFiles));
+
+						Console.WriteLine(visualStudioVersionsString);
+						sbContent.Append(visualStudioVersionsString);
+					}
+
 					Console.ResetColor();
 
 					results += items.Length;
-
+					sbContent.AppendLine();
 					sbContent.AppendLine();
 
 					if (items.Count() > 0)
@@ -223,8 +231,8 @@ namespace TeamFoundationDevTools
 				else
 				{
 					project_progress = string.Format("-\t {0} \t {1}", ("------- in :").PadLeft(25, '.'), project.Name);
-					sbContent.AppendLine();
-					sbContent.AppendLine(project_progress);
+					//sbContent.AppendLine();
+					//sbContent.AppendLine(project_progress);
 					Console.WriteLine(project_progress);
 
 					Utils.DumpData(ref sbContent, ref fileName);
