@@ -40,7 +40,8 @@ namespace TeamFoundationDevTools
 					menus[0] = Connectivity.tfsProjectCollectionUri == null ? "Not Connected. ( Connect ? )" : "Connected ! ( Change ? )";
 					menus[1] = "Preferences";
 					menus[2] = "Search";
-					menus[3] = "Exit";
+					menus[3] = "List Users";
+					menus[4] = "Exit";
 				}
 
 				tempString = string.Format("Your Selection (0-{0}) : ", menus.Count - 1);
@@ -88,6 +89,10 @@ namespace TeamFoundationDevTools
 						break;
 
 					case 3:
+						Search.ListUsers(Connectivity.tfsProjectCollectionUri);
+						break;
+
+					case 4:
 						return;
 
 					default:

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.Framework.Client;
+using Microsoft.TeamFoundation.Framework.Common;
+using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.VersionControl.Client;
-using System.IO;
 
 namespace TeamFoundationDevTools
 {
@@ -131,7 +134,7 @@ namespace TeamFoundationDevTools
 							continue;
 						}
 
-						// Get file string and look for a string which tells the inntended Visual Studio version to use
+						// Get file string and look for a string which tells the intended Visual Studio version to use
 						// Caveat : this process assumes that *.sln file has each line on a new line
 
 						using (Stream stream = slnFile.DownloadFile())
@@ -288,5 +291,77 @@ namespace TeamFoundationDevTools
 			Console.ReadKey();
 		}
 
+		internal static void ListUsers(Uri TpcAddress)
+		{
+
+			string
+				title = null,
+				fileName = GetFileName()
+			;
+
+			var tpc = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(TpcAddress);
+			tpc.Authenticate();
+			tpc.EnsureAuthenticated();
+
+			var versionControl = tpc.GetService<VersionControlServer>();
+			var projects = versionControl.GetAllTeamProjects(true);
+
+			StringBuilder sbContent = new StringBuilder();
+			sbContent.AppendLine("===================");
+			sbContent.AppendLine("*** List Users : ***");
+			sbContent.AppendLine("===================");
+
+			sbContent.AppendLine();
+			sbContent.AppendLine("Server :" + TpcAddress.OriginalString);
+
+			sbContent.AppendLine("\n\n\n\n");
+
+			sbContent.AppendLine("===================");
+			sbContent.AppendLine("*** Results : ***");
+			sbContent.AppendLine("===================");
+
+			sbContent.AppendLine(Environment.NewLine + Environment.NewLine);
+			Console.WriteLine(sbContent.ToString());
+
+			//var collection = new TfsTeamProjectCollection(TpcAddress);
+			//var identityManagementService = collection.GetService<IIdentityManagementService>();
+
+			//var collectionValidUsers = identityManagementService.ReadIdentity(IdentitySearchFactor.DisplayName, "Project Collection Valid Users", MembershipQuery.Expanded, ReadIdentityOptions.None);
+
+			//var validMembers = identityManagementService.ReadIdentities(collectionValidUsers.Members, MembershipQuery.Expanded, ReadIdentityOptions.ExtendedProperties);
+
+
+			//var memberNames = validMembers
+			//					.Where(_ => !_.IsContainer && _.Descriptor.IdentityType != "Microsoft.TeamFoundation.UnauthenticatedIdentity")
+			//					.Select(_ => _.DisplayName)
+			//					.OrderBy(_ => _)
+			//					.ToList();
+
+			//Console.WriteLine(memberNames.);
+
+			var groupSecurityService = (IGroupSecurityService)tpc.GetService<IGroupSecurityService>();
+
+
+			foreach (var project in projects)
+			{
+				var appGroups = groupSecurityService.ListApplicationGroups(project.ArtifactUri.AbsoluteUri);
+				foreach (var group in appGroups)
+				{
+					var groupMembers = groupSecurityService.ReadIdentities(SearchFactor.Sid, new string[] { group.Sid }, QueryMembership.Expanded);
+					foreach (var member in groupMembers)
+					{
+						Console.WriteLine(member.DisplayName);
+						if (member.Members != null)
+						{
+							foreach (var memberSid in member.Members)
+							{
+								var memberInfo = groupSecurityService.ReadIdentity(SearchFactor.Sid, memberSid, QueryMembership.None);
+								Console.WriteLine("    {0}", memberInfo.DisplayName);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
